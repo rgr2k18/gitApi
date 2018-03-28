@@ -30,10 +30,15 @@ public class gitApiApplication implements CommandLineRunner {
 		String resourceURL = "https://api.github.com/search/repositories?q=testng&sort=stars&order=desc";
 		
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
-		ResponseEntity<String> response = restTemplate.exchange(resourceURL, HttpMethod.GET, entity, String.class);
+		ResponseEntity<repoData[]> response = restTemplate.exchange(resourceURL, HttpMethod.GET, entity, repoData[].class);
 		
 		if(response.getStatusCode() == HttpStatus.OK) {
-			System.out.println(response);
+			
+			for(repoData repoDataMine : response.getBody()) {
+				
+				System.out.println(repoDataMine.id + " " + repoDataMine.name);
+			}
+			
 		}
 		else {
 			System.out.println("Error");
